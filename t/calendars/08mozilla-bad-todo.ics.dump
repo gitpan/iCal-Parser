@@ -110,7 +110,7 @@ $VAR1 = {
                         'index' => 1,
                         'X-WR-RELCALID' => 1,
                         'PRODID' => '-//Testing//Test//EN',
-                        'X-WR-TIMEZONE' => 'local',
+                        'X-WR-TIMEZONE' => 'America/New_York',
                         'VERSION' => '2.0'
                       }
                     ]

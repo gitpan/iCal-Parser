@@ -2,7 +2,7 @@
 package iCal::Parser;
 use strict;
 
-our $VERSION=sprintf("%d.%02d", q$Name: ical-parser-1-7 $ =~ /(\d+)-(\d+)/);
+our $VERSION=sprintf("%d.%02d", q$Name: ical-parser-1-8 $ =~ /(\d+)-(\d+)/);
 our @ISA = qw (Exporter);
 
 use DateTime::Format::ICal;
