@@ -1,3 +1,11 @@
+2005-02-08  Rick Frankel  <rick@gg5.local>
+
+	* Build.PL: build_require freeze/thaw, latest version of
+	Test::More (is_deeply comparison problems).
+
+	* t/02parse.t: change from using Data::Dumper to freeze/thaw for
+	saving/comparing parsing output.
+
 2005-02-04  Rick Frankel  <rick@gg5.local>
 
 	* t/02parse.t: force explicit timezone for tests.

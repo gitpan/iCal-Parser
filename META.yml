@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: iCal-Parser
-version: 1.08
+version: 1.09
 author:
   - Rick Frankel, cpan@rickster.com
 abstract: Parse iCalendar files into a data structure
@@ -12,9 +12,10 @@ requires:
   IO::String: 0
   Text::vFile::asData: 0.02
 build_requires:
-  Test::More: 0.47
+  FreezeThaw: 0.43
+  Test::More: 0.54
 provides:
   iCal::Parser:
     file: lib/iCal/Parser.pm
-    version: 1.08
+    version: 1.09
 generated_by: Module::Build version 0.2606

@@ -1,18 +1,21 @@
 # -*-cperl -*-
-# $Id: 02parse.t,v 1.4 2005/02/04 13:23:41 rick Exp $
+# $Id: 02parse.t,v 1.5 2005/02/08 19:45:12 rick Exp $
 use Test::More;
 use iCal::Parser;
+
+require "t/Defrost.pm";
 
 my @files=glob("t/calendars/[0-9]*.ics");
 plan tests => scalar @files + 3;
 
-my $tz='America/New_York';
+my $tz='UTC';
+my $VAR1;
 foreach my $f (@files) {
-    require "$f.dump";
+    $VAR1=defrost("$f.dump");
     my $h = iCal::Parser->new(start=>'20040101',tz=>$tz)->parse($f);
     is_deeply($h,$VAR1,$f=~/.+\d+(.+)\.ics/);
 }
-require "t/calendars/10multi-cal.ics.dump";
+$VAR1= defrost("t/calendars/10multi-cal.ics.dump");
 my @cals=("t/calendars/02event-duration.ics",
 	  "t/calendars/03all-day-event.ics");
 
@@ -37,3 +40,4 @@ my @s=();
 #must do outside of block above as $/ affect IO::String
 $h=iCal::Parser->new(start=>'20040101',tz=>$tz)->parse_strings(@s);
 is_deeply($h,$VAR1,"multiple calendars (parse_strings)");
+
