@@ -1,0 +1,14 @@
+$VAR1 = {
+  'todos' => [],
+  'events' => {},
+  'cals' => [
+    {
+      'X-WR-CALNAME' => 'Calendar 1',
+      'index' => 1,
+      'X-WR-RELCALID' => 1,
+      'PRODID' => '-//Testing//Test//EN',
+      'X-WR-TIMEZONE' => 'floating',
+      'VERSION' => '2.0'
+    }
+  ]
+};

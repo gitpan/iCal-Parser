@@ -1,0 +1,480 @@
+$VAR1 = {
+  'todos' => [],
+  'events' => {
+    '2004' => {
+      '11' => {
+        '18' => {
+          'D5EEE785-3516-11D9-8A43-000D93C45D90' => {
+            'SUMMARY' => 'daily',
+            'hours' => '2.00',
+            'UID' => 'D5EEE785-3516-11D9-8A43-000D93C45D90',
+            'idref' => 1,
+            'STATUS' => 'CANCELLED',
+            'DTSTAMP' => bless( {
+              'local_rd_secs' => 74034,
+              'local_rd_days' => 731898,
+              'rd_nanosecs' => 0,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'local_c' => {
+                'hour' => 20,
+                'second' => 54,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 318,
+                'day_of_quarter' => 44,
+                'minute' => 33,
+                'day' => 13,
+                'day_of_week' => 6,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 74034,
+              'tz' => bless( {
+                'name' => 'UTC'
+              }, 'DateTime::TimeZone::UTC' ),
+              'utc_year' => 2005,
+              'utc_rd_days' => 731898
+            }, 'DateTime' ),
+            'DTEND' => bless( {
+              'local_rd_secs' => 82800,
+              'local_rd_days' => 731903,
+              'rd_nanosecs' => 0,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'local_c' => {
+                'hour' => 23,
+                'second' => 0,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 323,
+                'day_of_quarter' => 49,
+                'minute' => 0,
+                'day' => 18,
+                'day_of_week' => 4,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 82800,
+              'tz' => bless( {
+                'name' => 'floating',
+                'offset' => 0
+              }, 'DateTime::TimeZone::Floating' ),
+              'utc_year' => 2005,
+              'utc_rd_days' => 731903
+            }, 'DateTime' ),
+            'DTSTART' => bless( {
+              'local_rd_secs' => 75600,
+              'local_rd_days' => 731903,
+              'rd_nanosecs' => 0,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'local_c' => {
+                'hour' => 21,
+                'second' => 0,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 323,
+                'day_of_quarter' => 49,
+                'minute' => 0,
+                'day' => 18,
+                'day_of_week' => 4,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 75600,
+              'tz' => bless( {
+                'name' => 'floating',
+                'offset' => 0
+              }, 'DateTime::TimeZone::Floating' ),
+              'utc_year' => 2005,
+              'utc_rd_days' => 731903
+            }, 'DateTime' )
+          }
+        },
+        '19' => {
+          'D5EEE785-3516-11D9-8A43-000D93C45D90' => {
+            'SUMMARY' => 'daily',
+            'hours' => '1.00',
+            'UID' => 'D5EEE785-3516-11D9-8A43-000D93C45D90',
+            'idref' => 1,
+            'DTSTAMP' => bless( {
+              'local_rd_secs' => 6845,
+              'local_rd_days' => 731898,
+              'rd_nanosecs' => 0,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'local_c' => {
+                'hour' => 1,
+                'second' => 5,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 318,
+                'day_of_quarter' => 44,
+                'minute' => 54,
+                'day' => 13,
+                'day_of_week' => 6,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 6845,
+              'tz' => bless( {
+                'name' => 'UTC'
+              }, 'DateTime::TimeZone::UTC' ),
+              'utc_year' => 2005,
+              'utc_rd_days' => 731898
+            }, 'DateTime' ),
+            'DTEND' => bless( {
+              'local_rd_secs' => 79200,
+              'local_rd_days' => 731904,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'rd_nanosecs' => 0,
+              'local_c' => {
+                'hour' => 22,
+                'second' => 0,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 324,
+                'day_of_quarter' => 50,
+                'minute' => 0,
+                'day' => 19,
+                'day_of_week' => 5,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 79200,
+              'utc_year' => 2009,
+              'tz' => bless( {
+                'name' => 'floating',
+                'offset' => 0
+              }, 'DateTime::TimeZone::Floating' ),
+              'utc_rd_days' => 731904
+            }, 'DateTime' ),
+            'DTSTART' => bless( {
+              'local_rd_secs' => 75600,
+              'local_rd_days' => 731904,
+              'rd_nanosecs' => 0,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'local_c' => {
+                'hour' => 21,
+                'second' => 0,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 324,
+                'day_of_quarter' => 50,
+                'minute' => 0,
+                'day' => 19,
+                'day_of_week' => 5,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 75600,
+              'utc_year' => 2008,
+              'tz' => bless( {
+                'name' => 'floating',
+                'offset' => 0
+              }, 'DateTime::TimeZone::Floating' ),
+              'utc_rd_days' => 731904
+            }, 'DateTime' )
+          }
+        },
+        '17' => {
+          'D5EEE785-3516-11D9-8A43-000D93C45D90' => {
+            'SUMMARY' => 'daily',
+            'hours' => '1.00',
+            'UID' => 'D5EEE785-3516-11D9-8A43-000D93C45D90',
+            'idref' => 1,
+            'DTSTAMP' => bless( {
+              'local_rd_secs' => 6845,
+              'local_rd_days' => 731898,
+              'rd_nanosecs' => 0,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'local_c' => {
+                'hour' => 1,
+                'second' => 5,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 318,
+                'day_of_quarter' => 44,
+                'minute' => 54,
+                'day' => 13,
+                'day_of_week' => 6,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 6845,
+              'tz' => bless( {
+                'name' => 'UTC'
+              }, 'DateTime::TimeZone::UTC' ),
+              'utc_year' => 2005,
+              'utc_rd_days' => 731898
+            }, 'DateTime' ),
+            'DTEND' => bless( {
+              'local_rd_secs' => 79200,
+              'local_rd_days' => 731902,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'rd_nanosecs' => 0,
+              'local_c' => {
+                'hour' => 22,
+                'second' => 0,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 322,
+                'day_of_quarter' => 48,
+                'minute' => 0,
+                'day' => 17,
+                'day_of_week' => 3,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 79200,
+              'utc_year' => 2009,
+              'tz' => bless( {
+                'name' => 'floating',
+                'offset' => 0
+              }, 'DateTime::TimeZone::Floating' ),
+              'utc_rd_days' => 731902
+            }, 'DateTime' ),
+            'DTSTART' => bless( {
+              'local_rd_secs' => 75600,
+              'local_rd_days' => 731902,
+              'rd_nanosecs' => 0,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'local_c' => {
+                'hour' => 21,
+                'second' => 0,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 322,
+                'day_of_quarter' => 48,
+                'minute' => 0,
+                'day' => 17,
+                'day_of_week' => 3,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 75600,
+              'utc_year' => 2008,
+              'tz' => bless( {
+                'name' => 'floating',
+                'offset' => 0
+              }, 'DateTime::TimeZone::Floating' ),
+              'utc_rd_days' => 731902
+            }, 'DateTime' )
+          }
+        },
+        '20' => {
+          'D5EEE785-3516-11D9-8A43-000D93C45D90' => {
+            'SUMMARY' => 'daily',
+            'hours' => '1.00',
+            'UID' => 'D5EEE785-3516-11D9-8A43-000D93C45D90',
+            'idref' => 1,
+            'DTSTAMP' => bless( {
+              'local_rd_secs' => 6845,
+              'local_rd_days' => 731898,
+              'rd_nanosecs' => 0,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'local_c' => {
+                'hour' => 1,
+                'second' => 5,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 318,
+                'day_of_quarter' => 44,
+                'minute' => 54,
+                'day' => 13,
+                'day_of_week' => 6,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 6845,
+              'tz' => bless( {
+                'name' => 'UTC'
+              }, 'DateTime::TimeZone::UTC' ),
+              'utc_year' => 2005,
+              'utc_rd_days' => 731898
+            }, 'DateTime' ),
+            'DTEND' => bless( {
+              'local_rd_secs' => 79200,
+              'local_rd_days' => 731905,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'rd_nanosecs' => 0,
+              'local_c' => {
+                'hour' => 22,
+                'second' => 0,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 325,
+                'day_of_quarter' => 51,
+                'minute' => 0,
+                'day' => 20,
+                'day_of_week' => 6,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 79200,
+              'utc_year' => 2009,
+              'tz' => bless( {
+                'name' => 'floating',
+                'offset' => 0
+              }, 'DateTime::TimeZone::Floating' ),
+              'utc_rd_days' => 731905
+            }, 'DateTime' ),
+            'DTSTART' => bless( {
+              'local_rd_secs' => 75600,
+              'local_rd_days' => 731905,
+              'rd_nanosecs' => 0,
+              'locale' => bless( {
+                'default_time_format_length' => 'medium',
+                'native_territory' => 'United States',
+                'native_language' => 'English',
+                'real_class' => 'root',
+                'native_complete_name' => 'English United States',
+                'en_language' => 'English',
+                'default_date_format_length' => 'medium',
+                'id' => 'en_US',
+                'en_territory' => 'United States',
+                'en_complete_name' => 'English United States'
+              }, 'DateTime::Locale::root' ),
+              'local_c' => {
+                'hour' => 21,
+                'second' => 0,
+                'month' => 11,
+                'quarter' => 4,
+                'day_of_year' => 325,
+                'day_of_quarter' => 51,
+                'minute' => 0,
+                'day' => 20,
+                'day_of_week' => 6,
+                'year' => 2004
+              },
+              'utc_rd_secs' => 75600,
+              'utc_year' => 2008,
+              'tz' => bless( {
+                'name' => 'floating',
+                'offset' => 0
+              }, 'DateTime::TimeZone::Floating' ),
+              'utc_rd_days' => 731905
+            }, 'DateTime' )
+          }
+        }
+      }
+    }
+  },
+  'cals' => [
+    {
+      'X-WR-CALNAME' => 'Calendar 1',
+      'index' => 1,
+      'X-WR-RELCALID' => 1,
+      'PRODID' => '-//Testing//Test//EN',
+      'X-WR-TIMEZONE' => 'floating',
+      'VERSION' => '2.0'
+    }
+  ]
+};
