@@ -1,8 +1,13 @@
-# $Id: Parser.pm,v 1.8 2005/02/01 20:35:14 rick Exp $
+# $Id: Parser.pm 37 2005-03-29 00:58:22Z rick $
 package iCal::Parser;
 use strict;
 
-our $VERSION=sprintf("%d.%02d", q$Name: ical-parser-1-9 $ =~ /(\d+)-(\d+)/);
+# Get version from subversion url of tag or branch.
+# Note: putting "our" on same line as assignment breaks pmvers and
+# Module::Build parsing of version.
+our $VERSION;
+($VERSION)='$URL: http://private/svn/rick/perl/ical/iCal-Parser/tags/1.10/lib/iCal/Parser.pm $ '=~ m{.*/(?:tags|branches)/([^/$ \t]+)};
+
 our @ISA = qw (Exporter);
 
 use DateTime::Format::ICal;
@@ -101,6 +106,9 @@ sub VEVENT {
     my $start=$e{DTSTART};
     return if $start > $self->{span}->end;
 
+    warn "Event: @e{qw(UID DTSTART SUMMARY)}\n"
+    if $self->{debug};
+
     # stolen from Text::vFile::asData example
     $e{allday}=1 if _param($event,'DTSTART','VALUE')||'' eq 'DATE';
 
@@ -144,6 +152,11 @@ sub VEVENT {
 	}
     }
     $set||=DateTime::Set->from_datetimes(dates=>[$start]);
+
+    # fix bug w/ recurrence containing no entries
+    # note that count returns "undef" for infinitely large sets.
+    return if defined $set->count && $set->count==0;
+
     if(my $dates=delete $e{'EXDATE'}) {
 	#mozilla/sunbird set exdate to T00..., so, get first start date
 	#and set times on exdates

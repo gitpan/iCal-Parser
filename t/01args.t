@@ -1,5 +1,5 @@
 # -*-cperl -*-
-# $Id: 01args.t,v 1.4 2005/02/08 19:45:12 rick Exp $
+# $Id: 01args.t 6 2005-03-20 00:35:17Z rick $
 use Test::More tests => 6;
 use iCal::Parser;
 use DateTime;

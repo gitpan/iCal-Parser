@@ -1,5 +1,5 @@
 # -*-cperl -*-
-# $Id: 02parse.t,v 1.5 2005/02/08 19:45:12 rick Exp $
+# $Id: 02parse.t 6 2005-03-20 00:35:17Z rick $
 use Test::More;
 use iCal::Parser;
 

@@ -1,3 +1,11 @@
+2005-03-28  Rick Frankel  <rick@gg5.local>
+
+	* t/calendars/04recurrence.ics (BEGIN): added test for empty set
+	fix.
+
+	* lib/iCal/Parser.pm (VEVENT): handle recurrence generating sets
+	with no entries.
+
 2005-02-08  Rick Frankel  <rick@gg5.local>
 
 	* Build.PL: build_require freeze/thaw, latest version of
