@@ -1,8 +1,8 @@
-# $Id: Parser.pm,v 1.2 2004/12/18 00:48:47 rick Exp $
+# $Id: Parser.pm,v 1.3 2004/12/23 23:16:49 rick Exp $
 package iCal::Parser;
 use strict;
 
-our $VERSION=sprintf("%d.%02d", q$Revision: 1.2 $ =~ /(\d+)\.(\d+)/);
+our $VERSION=sprintf("%d.%02d", q$Revision: 1.3 $ =~ /(\d+)\.(\d+)/);
 our @ISA = qw (Exporter);
 
 use DateTime::Format::ICal;
@@ -193,7 +193,10 @@ sub _convert_value {
     return $dfmt->parse_duration($value) if $TYPES{durations}{$type};
     return $value unless $TYPES{dates}{$type};
 
-    # I have a sample calendar Employer Tax calendar
+    #mozilla calendar bug: negative dates on todos!
+    return undef if $value =~ /^-/;
+
+    # I have a sample calendar "Employer Tax calendar"
     # which has an allday event ending on 20040332!
     # so, handle the exception
     my $date;
@@ -219,10 +222,11 @@ sub _map_properties {
     my($e,$event)=@_;
 
     my $props=$event->{properties};
-    map {
+    foreach (keys %$props) {
 	my @a=_get_value($props,$_);
+	delete $e->{$_}, next unless defined $a[0];
 	$e->{$_}=$TYPES{arrays}{$_} ? \@a :$a[0];
-    } keys %$props;
+    };
     delete $e->{SEQUENCE};
 }
 sub _cur_calid {

@@ -1,0 +1,5 @@
+2004-12-23  Rick Frankel  <rick@gg5.local>
+
+	* Parser.pm (_convert_value): deal with mozilla's negative dates
+	in todos
+
