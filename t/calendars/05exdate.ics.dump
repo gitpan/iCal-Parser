@@ -75,7 +75,7 @@ $VAR1 = {
               'utc_rd_secs' => 72000,
               'utc_year' => 2013,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731912
@@ -111,7 +111,7 @@ $VAR1 = {
               'utc_rd_secs' => 68400,
               'utc_year' => 2012,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731912
@@ -192,7 +192,7 @@ $VAR1 = {
               'utc_rd_secs' => 72000,
               'utc_year' => 2013,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731940
@@ -228,7 +228,7 @@ $VAR1 = {
               'utc_rd_secs' => 68400,
               'utc_year' => 2012,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731940
@@ -307,7 +307,7 @@ $VAR1 = {
               'utc_rd_secs' => 72000,
               'utc_year' => 2013,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731926
@@ -343,7 +343,7 @@ $VAR1 = {
               'utc_rd_secs' => 68400,
               'utc_year' => 2012,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731926
@@ -359,7 +359,7 @@ $VAR1 = {
       'index' => 1,
       'X-WR-RELCALID' => 1,
       'PRODID' => '-//Testing//Test//EN',
-      'X-WR-TIMEZONE' => 'floating',
+      'X-WR-TIMEZONE' => 'local',
       'VERSION' => '2.0'
     }
   ]

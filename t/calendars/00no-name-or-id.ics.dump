@@ -7,7 +7,7 @@ $VAR1 = {
       'index' => 1,
       'X-WR-RELCALID' => 1,
       'PRODID' => '-//Testing//Test//EN',
-      'X-WR-TIMEZONE' => 'floating',
+      'X-WR-TIMEZONE' => 'local',
       'VERSION' => '2.0'
     }
   ]

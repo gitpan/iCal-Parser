@@ -71,7 +71,7 @@ $VAR1 = {
             },
             'utc_rd_secs' => 85500,
             'tz' => bless( {
-              'name' => 'floating',
+              'name' => 'local',
               'offset' => 0
             }, 'DateTime::TimeZone::Floating' ),
             'utc_year' => 2006,
@@ -112,7 +112,7 @@ $VAR1 = {
         },
         'utc_rd_secs' => 0,
         'tz' => bless( {
-          'name' => 'floating',
+          'name' => 'local',
           'offset' => 0
         }, 'DateTime::TimeZone::Floating' ),
         'utc_year' => 2005,
@@ -148,7 +148,7 @@ $VAR1 = {
         },
         'utc_rd_secs' => 0,
         'tz' => bless( {
-          'name' => 'floating',
+          'name' => 'local',
           'offset' => 0
         }, 'DateTime::TimeZone::Floating' ),
         'utc_year' => 2005,
@@ -163,7 +163,7 @@ $VAR1 = {
       'index' => 1,
       'X-WR-RELCALID' => 1,
       'PRODID' => '-//Testing//Test//EN',
-      'X-WR-TIMEZONE' => 'floating',
+      'X-WR-TIMEZONE' => 'local',
       'VERSION' => '2.0'
     }
   ]

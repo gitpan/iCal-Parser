@@ -9,6 +9,7 @@ WriteMakefile
           'PREREQ_PM' => {
                            'Test::More' => '0.47',
                            'IO::File' => '1.1',
+                           'IO::String' => 0,
                            'File::Basename' => 0,
                            'DateTime::Format::ICal' => '0.08',
                            'Text::vFile::asData' => '0.02'

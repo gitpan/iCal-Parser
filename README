@@ -11,6 +11,8 @@ SYNOPSIS
       my $combined=$parser->calendar;
 
       my $combined=iCal::Parser->new->parse(@files);
+      my $combined=iCal::Parser->new->parse_files(@files);
+      my $combined=iCal::Parser->new->parse_strings(@strings);
 
 DESCRIPTION
     This module processes iCalendar (vCalendar 2.0) files as specified in
@@ -151,16 +153,27 @@ Methods
         "to" date is set to the "start" date plus this many months. The
         default is 60.
 
+    tz string
+        Use tz as timezone for date values. The default is 'local', which
+        will adjust the parsed dates to the current timezone.
+
     debug
         Set to non-zero for some debugging output during processing.
 
-  parse([file|file_handle]+)
+  parse({file|file_handle}+)
     Parse the input files or opened file handles and return the generated
     hash.
 
     This function can be called mutitple times and the calendars will be
     merge into the hash, each event tagged with the unique id of its
     calendar.
+
+  parse_files({file|file_handle}+)
+    Alias for "parse()"
+
+  parse_strings(string+)
+    Parse the input strings (each assumed to be a valid iCalendar) and
+    return the generated hash.
 
 AUTHOR
     Rick Frankel, cpan@rickster.com

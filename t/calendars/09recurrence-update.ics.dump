@@ -75,7 +75,7 @@ $VAR1 = {
               },
               'utc_rd_secs' => 82800,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_year' => 2005,
@@ -111,7 +111,7 @@ $VAR1 = {
               },
               'utc_rd_secs' => 75600,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_year' => 2005,
@@ -191,7 +191,7 @@ $VAR1 = {
               'utc_rd_secs' => 79200,
               'utc_year' => 2009,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731904
@@ -227,7 +227,7 @@ $VAR1 = {
               'utc_rd_secs' => 75600,
               'utc_year' => 2008,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731904
@@ -306,7 +306,7 @@ $VAR1 = {
               'utc_rd_secs' => 79200,
               'utc_year' => 2009,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731902
@@ -342,7 +342,7 @@ $VAR1 = {
               'utc_rd_secs' => 75600,
               'utc_year' => 2008,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731902
@@ -421,7 +421,7 @@ $VAR1 = {
               'utc_rd_secs' => 79200,
               'utc_year' => 2009,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731905
@@ -457,7 +457,7 @@ $VAR1 = {
               'utc_rd_secs' => 75600,
               'utc_year' => 2008,
               'tz' => bless( {
-                'name' => 'floating',
+                'name' => 'local',
                 'offset' => 0
               }, 'DateTime::TimeZone::Floating' ),
               'utc_rd_days' => 731905
@@ -473,7 +473,7 @@ $VAR1 = {
       'index' => 1,
       'X-WR-RELCALID' => 1,
       'PRODID' => '-//Testing//Test//EN',
-      'X-WR-TIMEZONE' => 'floating',
+      'X-WR-TIMEZONE' => 'local',
       'VERSION' => '2.0'
     }
   ]

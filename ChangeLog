@@ -1,3 +1,15 @@
+2005-02-01  Rick Frankel  <rick@gg5.local>
+
+	* lib/iCal/Parser.pm: change date handling. added tz
+	argument. Default now "local" instead of "floating". This is
+	consistent w/ iCal's handling of dates.
+
+2005-01-09  Rick Frankel  <rick@pb.local>
+
+	* lib/iCal/Parser.pm (parse_strings): added parse_strings
+	(suggested by Bob Goldstein), and, for consistency parse_files
+	alias for parse.
+
 2005-01-04  Rick Frankel  <rick@gg5.local>
 
 	* t/02parse.t: make tests independent of current year 

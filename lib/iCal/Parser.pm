@@ -1,14 +1,15 @@
-# $Id: Parser.pm,v 1.6 2005/01/04 22:05:52 rick Exp $
+# $Id: Parser.pm,v 1.8 2005/02/01 20:35:14 rick Exp $
 package iCal::Parser;
 use strict;
 
-our $VERSION=sprintf("%d.%02d", q$Revision: 1.6 $ =~ /(\d+)\.(\d+)/);
+our $VERSION=sprintf("%d.%02d", q$Name: ical-parser-1-7 $ =~ /(\d+)-(\d+)/);
 our @ISA = qw (Exporter);
 
 use DateTime::Format::ICal;
 use Text::vFile::asData;
 use File::Basename;
 use IO::File;
+use IO::String;
 
 # mapping of ical entries to datatypes
 our %TYPES=(dates=>{DTSTAMP=>1,DTSTART=>1,DTEND=>1,COMPLETED=>1,
@@ -20,7 +21,7 @@ our %TYPES=(dates=>{DTSTAMP=>1,DTSTART=>1,DTEND=>1,COMPLETED=>1,
 	    hash=>{'ATTENDEE'=>1, ORGANIZER=>1},
 	   );
 
-our %defaults=(debug=>0,span=>undef,start=>undef,end=>undef,months=>60);
+our %defaults=(debug=>0,span=>undef,start=>undef,end=>undef,months=>60,tz=>'local');
 
 our $dfmt=DateTime::Format::ICal->new;
 our $parser=Text::vFile::asData->new;
@@ -54,6 +55,13 @@ sub parse {
     }
     return $self->{ical};
 }
+sub parse_files {
+    return parse(@_);
+}
+sub parse_strings {
+    my $self=shift;
+    return $self->parse((map { IO::String->new($_) } @_));
+}
 sub calendar {
     return shift->{ical};
 }
@@ -61,8 +69,8 @@ sub VCALENDAR {
     my($self,$cal,$file)=@_;
 
     my %props=();
-    _map_properties(\%props,$cal);
-    $props{'X-WR-TIMEZONE'}||='floating';
+    $self->map_properties(\%props,$cal);
+    $props{'X-WR-TIMEZONE'}||=$self->{tz};
     $props{index}=++$self->{_calid};
     $props{'X-WR-RELCALID'}||=$self->{_calid};
     $props{'X-WR-CALNAME'}||= ref $file
@@ -75,7 +83,7 @@ sub VTODO {
     return if $self->{no_todos};
 
     my $t={idref=>$self->_cur_calid};
-    _map_properties($t,$todo);
+    $self->map_properties($t,$todo);
     $t->{PRIORITY}||=99;
 
     $self->add_objects($todo,$t);
@@ -87,7 +95,7 @@ sub VEVENT {
 
     my %e=(idref=>$self->_cur_calid);
 
-    _map_properties(\%e,$event);
+    $self->map_properties(\%e,$event);
     $self->add_objects($event,\%e);
 
     my $start=$e{DTSTART};
@@ -159,7 +167,7 @@ sub VALARM {
     my($self,$alarm,$e)=@_;
 
     my %a=();
-    _map_properties(\%a,$alarm);
+    $self->map_properties(\%a,$alarm);
 
     $a{when}=$e->{DTSTART}+delete $a{TRIGGER};
     push @{$e->{VALARM}},\%a;
@@ -181,8 +189,8 @@ sub _hours {
     $days||=0; $hours||=0; $minutes||=0;
     return sprintf "%.2f",($days*24*60+$hours*60+$minutes)/60.0;
 }
-sub _convert_value {
-    my($type,$hash)=@_;
+sub convert_value {
+    my($self,$type,$hash)=@_;
 
     my $value=$hash->{value};
     return $value unless $value; #should protect from invalid datetimes
@@ -203,16 +211,16 @@ sub _convert_value {
     # so, handle the exception
     my $date;
     eval {
-	$date=$dfmt->parse_datetime($value);
+	$date=$dfmt->parse_datetime($value)->set_time_zone($self->{tz});
     };
     return $date unless $@;
     die $@ if $type ne 'DTEND';
-    return $dfmt->parse_datetime(--$value);
+    return $dfmt->parse_datetime(--$value)->set_time_zone($self->{tz});
 }
-sub _get_value {
-    my($props,$key)=@_;
+sub get_value {
+    my($self,$props,$key)=@_;
 
-    my @a=map {_convert_value($key,$_)} @{ $props->{$key} };
+    my @a=map {$self->convert_value($key,$_)} @{ $props->{$key} };
     return wantarray ? @a : $a[0];
 }
 sub _param {
@@ -220,12 +228,12 @@ sub _param {
     return $event->{properties}{$key}[0]{param}{$param};
 }
 #set $a from $b
-sub _map_properties {
-    my($e,$event)=@_;
+sub map_properties {
+    my($self,$e,$event)=@_;
 
     my $props=$event->{properties};
     foreach (keys %$props) {
-	my @a=_get_value($props,$_);
+	my @a=$self->get_value($props,$_);
 	delete $e->{$_}, next unless defined $a[0];
 	$e->{$_}=$TYPES{arrays}{$_} ? \@a :$a[0];
     };
@@ -307,6 +315,8 @@ iCal::Parser - Parse iCalendar files into a data structure
   my $combined=$parser->calendar;
 
   my $combined=iCal::Parser->new->parse(@files);
+  my $combined=iCal::Parser->new->parse_files(@files);
+  my $combined=iCal::Parser->new->parse_strings(@strings);
 
 =head1 DESCRIPTION
 
@@ -471,18 +481,32 @@ approximately 200 entries. If an C<end> date is not specified, the
 C<to> date is set to the C<start> date plus this many months.
 The default is 60.
 
+=item tz string
+
+Use tz as timezone for date values.
+The default is 'local', which will adjust the parsed dates to the current timezone.
+
 =item debug
 
 Set to non-zero for some debugging output during processing.
 
 =back
 
-=head2 parse([file|file_handle]+)
+=head2 parse({file|file_handle}+)
 
 Parse the input files or opened file handles and return the generated hash.
 
 This function can be called mutitple times and the calendars will be
 merge into the hash, each event tagged with the unique id of its calendar.
+
+=head2 parse_files({file|file_handle}+)
+
+Alias for C<parse()>
+
+=head2 parse_strings(string+)
+
+Parse the input strings (each assumed to be a valid iCalendar) and return
+the generated hash.
 
 =head1 AUTHOR
 
@@ -501,5 +525,3 @@ LICENSE file included with this module.
 
 L<Text::vFile::asData>, L<DateTime::Set>, L<DateTime::Span>,
 L<iCal::Parser::SAX>
-
-
