@@ -1,3 +1,14 @@
+2005-01-04  Rick Frankel  <rick@gg5.local>
+
+	* t/02parse.t: make tests independent of current year 
+
+	* t/01args.t: ditto
+
+2004-12-31  Rick Frankel  <rick@gg5.local>
+
+	* lib/iCal/Parser.pm (VCALENDAR): change default name of calendar
+	to basename of file from "Calendar $idx" if possible.
+
 2004-12-23  Rick Frankel  <rick@gg5.local>
 
 	* Parser.pm (_convert_value): deal with mozilla's negative dates

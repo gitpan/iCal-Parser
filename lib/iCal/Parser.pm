@@ -1,12 +1,13 @@
-# $Id: Parser.pm,v 1.3 2004/12/23 23:16:49 rick Exp $
+# $Id: Parser.pm,v 1.6 2005/01/04 22:05:52 rick Exp $
 package iCal::Parser;
 use strict;
 
-our $VERSION=sprintf("%d.%02d", q$Revision: 1.3 $ =~ /(\d+)\.(\d+)/);
+our $VERSION=sprintf("%d.%02d", q$Revision: 1.6 $ =~ /(\d+)\.(\d+)/);
 our @ISA = qw (Exporter);
 
 use DateTime::Format::ICal;
 use Text::vFile::asData;
+use File::Basename;
 use IO::File;
 
 # mapping of ical entries to datatypes
@@ -48,7 +49,7 @@ sub parse {
 	my $data=$parser->parse($fh);
 	undef $fh;
 
-	$self->VCALENDAR($data->{objects}[0]);
+	$self->VCALENDAR($data->{objects}[0],$file);
 	$self->add_objects($data->{objects}[0]);
     }
     return $self->{ical};
@@ -57,14 +58,15 @@ sub calendar {
     return shift->{ical};
 }
 sub VCALENDAR {
-    my($self,$cal)=@_;
+    my($self,$cal,$file)=@_;
 
     my %props=();
     _map_properties(\%props,$cal);
     $props{'X-WR-TIMEZONE'}||='floating';
     $props{index}=++$self->{_calid};
     $props{'X-WR-RELCALID'}||=$self->{_calid};
-    $props{'X-WR-CALNAME'}||= "Calendar $props{index}";
+    $props{'X-WR-CALNAME'}||= ref $file
+    ? "Calendar $self->{_calid}" : fileparse($file,qr{\.\w+});
 
     push @{$self->{ical}{cals}},\%props;
 }

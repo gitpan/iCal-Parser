@@ -3,7 +3,7 @@ $VAR1 = {
   'events' => {},
   'cals' => [
     {
-      'X-WR-CALNAME' => 'Calendar 1',
+      'X-WR-CALNAME' => '00no-name-or-id',
       'index' => 1,
       'X-WR-RELCALID' => 1,
       'PRODID' => '-//Testing//Test//EN',

@@ -468,7 +468,7 @@ $VAR1 = {
   },
   'cals' => [
     {
-      'X-WR-CALNAME' => 'Calendar 1',
+      'X-WR-CALNAME' => '06multi-day',
       'index' => 1,
       'X-WR-RELCALID' => 1,
       'PRODID' => '-//Testing//Test//EN',

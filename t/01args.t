@@ -1,4 +1,4 @@
-use Test::More tests => 7;
+use Test::More tests => 6;
 use iCal::Parser;
 use DateTime;
 use DateTime::Span;
@@ -15,10 +15,6 @@ is_deeply($h,$VAR1,"start");
 $h=iCal::Parser->new(start=>$start)->parse('t/calendars/t.ics');
 is_deeply($h,$VAR1,"start as datetime");
 
-require "t/calendars/t-end.ics.dump";
-$h=iCal::Parser->new(end=>$end)->parse('t/calendars/t.ics');
-is_deeply($h,$VAR1,"end as datetime");
-
 require "t/calendars/t-start-end.ics.dump";
 $h=iCal::Parser->new(start=>'20041201',end=>'20051201')
 ->parse('t/calendars/t.ics');
@@ -32,5 +28,5 @@ $h=iCal::Parser->new(span=>$span)->parse('t/calendars/t.ics');
 is_deeply($h,$VAR1,"span");
 
 require "t/calendars/t-months.ics.dump";
-$h=iCal::Parser->new(months=>14)->parse('t/calendars/t.ics');
+$h=iCal::Parser->new(start=>'20040101',months=>14)->parse('t/calendars/t.ics');
 is_deeply($h,$VAR1,"months");

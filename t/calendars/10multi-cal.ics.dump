@@ -238,7 +238,7 @@ $VAR1 = {
   },
   'cals' => [
     {
-      'X-WR-CALNAME' => 'Calendar 1',
+      'X-WR-CALNAME' => '02event-duration',
       'index' => 1,
       'X-WR-RELCALID' => 1,
       'PRODID' => '-//Testing//Test//EN',
@@ -246,7 +246,7 @@ $VAR1 = {
       'VERSION' => '2.0'
     },
     {
-      'X-WR-CALNAME' => 'Calendar 2',
+      'X-WR-CALNAME' => '03all-day-event',
       'index' => 2,
       'X-WR-RELCALID' => 2,
       'PRODID' => '-//Testing//Test//EN',

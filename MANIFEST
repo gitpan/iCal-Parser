@@ -30,7 +30,6 @@ t/calendars/08mozilla-bad-todo.ics.dump
 t/calendars/09recurrence-update.ics
 t/calendars/09recurrence-update.ics.dump
 t/calendars/10multi-cal.ics.dump
-t/calendars/t-end.ics.dump
 t/calendars/t-months.ics.dump
 t/calendars/t-no-args.ics.dump
 t/calendars/t-start-end.ics.dump
