@@ -36,4 +36,8 @@ t/calendars/t-no-args.ics.dump
 t/calendars/t-start-end.ics.dump
 t/calendars/t-start.ics.dump
 t/calendars/t.ics
+t/calendars/02event-end.ics
+t/calendars/02event-end.ics.dump
+t/calendars/05exdatelist.ics
+t/calendars/05exdatelist.ics.dump
 META.yml

@@ -1,4 +1,4 @@
-# $Id: Parser.pm 37 2005-03-29 00:58:22Z rick $
+# $Id: Parser.pm 62 2005-07-02 14:52:19Z rick $
 package iCal::Parser;
 use strict;
 
@@ -6,7 +6,7 @@ use strict;
 # Note: putting "our" on same line as assignment breaks pmvers and
 # Module::Build parsing of version.
 our $VERSION;
-($VERSION)='$URL: http://private/svn/rick/perl/ical/iCal-Parser/tags/1.10/lib/iCal/Parser.pm $ '=~ m{.*/(?:tags|branches)/([^/$ \t]+)};
+($VERSION)='$URL: svn+ssh://private/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.11/lib/iCal/Parser.pm $ '=~ m{.*/(?:tags|branches)/([^/$ \t]+)};
 
 our @ISA = qw (Exporter);
 
@@ -219,16 +219,22 @@ sub convert_value {
     #mozilla calendar bug: negative dates on todos!
     return undef if $value =~ /^-/;
 
-    # I have a sample calendar "Employer Tax calendar"
-    # which has an allday event ending on 20040332!
-    # so, handle the exception
-    my $date;
-    eval {
-	$date=$dfmt->parse_datetime($value)->set_time_zone($self->{tz});
-    };
-    return $date unless $@;
-    die $@ if $type ne 'DTEND';
-    return $dfmt->parse_datetime(--$value)->set_time_zone($self->{tz});
+    #handle dates which can be arrays (EXDATE)
+    my @dates=();
+    foreach my $s (split ',', $value) {
+	# I have a sample calendar "Employer Tax calendar"
+	# which has an allday event ending on 20040332!
+	# so, handle the exception
+	my $date;
+	eval {
+	    $date=$dfmt->parse_datetime($s)->set_time_zone($self->{tz});
+	};
+	push @dates, $date and next unless $@;
+	die $@ if $@ && $type ne 'DTEND';
+	push @dates,
+	$dfmt->parse_datetime(--$value)->set_time_zone($self->{tz});
+    }
+    return @dates;
 }
 sub get_value {
     my($self,$props,$key)=@_;
