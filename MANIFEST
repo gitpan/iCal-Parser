@@ -18,6 +18,8 @@ t/calendars/03all-day-event.ics
 t/calendars/03all-day-event.ics.dump
 t/calendars/04recurrence.ics
 t/calendars/04recurrence.ics.dump
+t/calendars/04recurrence_alarm.ics
+t/calendars/04recurrence_alarm.ics.dump
 t/calendars/05exdate.ics
 t/calendars/05exdate.ics.dump
 t/calendars/06multi-day.ics

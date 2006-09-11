@@ -5,6 +5,7 @@ WriteMakefile
           'PL_FILES' => {},
           'INSTALLDIRS' => 'site',
           'NAME' => 'iCal::Parser',
+          'EXE_FILES' => [],
           'VERSION_FROM' => 'lib/iCal/Parser.pm',
           'PREREQ_PM' => {
                            'Test::More' => '0.54',

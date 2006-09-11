@@ -1,12 +1,9 @@
-# $Id: Parser.pm 62 2005-07-02 14:52:19Z rick $
+# $Id: Parser.pm 160 2006-09-11 02:41:12Z rick $
 package iCal::Parser;
 use strict;
 
 # Get version from subversion url of tag or branch.
-# Note: putting "our" on same line as assignment breaks pmvers and
-# Module::Build parsing of version.
-our $VERSION;
-($VERSION)='$URL: svn+ssh://private/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.11/lib/iCal/Parser.pm $ '=~ m{.*/(?:tags|branches)/([^/$ \t]+)};
+our $VERSION= do {(q$URL: svn+ssh://xpc/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.12/lib/iCal/Parser.pm $=~ m$.*/(?:tags|branches)/([^/ \t]+)$)[0] || "0.0"};
 
 our @ISA = qw (Exporter);
 
@@ -172,9 +169,13 @@ sub VEVENT {
     $set=$set->intersection($self->{span}) if $self->{span};
     my $iter=$set->iterator;
     while(my $dt=$iter->next) {
-	$self->add_event({%e,DTSTART=>$dt,DTEND=>$dt+$duration})
+        #bug found by D. Sweet. Fix alarms on entries
+        #other than first
+        my $new_event={%e,DTSTART=>$dt,DTEND=>$dt+$duration};
+        $new_event->{VALARM}=_fix_alarms($new_event, $e{DTSTART})
+            if $new_event->{VALARM};
+        $self->add_event($new_event);
     }
-
 }
 sub VALARM {
     my($self,$alarm,$e)=@_;
@@ -184,6 +185,20 @@ sub VALARM {
 
     $a{when}=$e->{DTSTART}+delete $a{TRIGGER};
     push @{$e->{VALARM}},\%a;
+}
+sub _fix_alarms {
+    my $e=shift;
+    my $orig_start=shift;
+
+    # trigger already remove, generate diff
+    my $diff=$e->{DTSTART}-$orig_start;
+    my @alarms=();
+    foreach my $old (@{ $e->{VALARM} }) {
+        my %a=%$old;
+        $a{when}=$a{when}->clone->add_duration($diff);
+        push @alarms, \%a;
+    }
+    return \@alarms;
 }
 sub add_objects {
     my $self=shift;
@@ -292,6 +307,10 @@ sub update_recurrence {
 sub add_span {
     my($self,$event)=@_;
     my %last=%$event;
+
+    #when event spans days, only alarm on first entry
+    delete $last{VALARM};
+
     $last{DTSTART}=$event->{DTEND}->clone->truncate(to=>'day');
     $last{DTEND}=$event->{DTEND};
     $event->{DTEND}=$event->{DTSTART}->clone->truncate(to=>'day')
