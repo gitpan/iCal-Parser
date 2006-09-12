@@ -1,9 +1,9 @@
-# $Id: Parser.pm 160 2006-09-11 02:41:12Z rick $
+# $Id: Parser.pm 167 2006-09-12 01:24:39Z rick $
 package iCal::Parser;
 use strict;
 
 # Get version from subversion url of tag or branch.
-our $VERSION= do {(q$URL: svn+ssh://xpc/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.12/lib/iCal/Parser.pm $=~ m$.*/(?:tags|branches)/([^/ \t]+)$)[0] || "0.0"};
+our $VERSION= do {(q$URL: svn+ssh://xpc/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.13/lib/iCal/Parser.pm $=~ m$.*/(?:tags|branches)/([^/ \t]+)$)[0] || "0.0"};
 
 our @ISA = qw (Exporter);
 
@@ -18,7 +18,7 @@ our %TYPES=(dates=>{DTSTAMP=>1,DTSTART=>1,DTEND=>1,COMPLETED=>1,
 		    'RECURRENCE-ID'=>1,EXDATE=>1,DUE=>1,
 		    'LAST-MODIFIED'=>1,
 		   },
-	    durations=>{DURATION=>1,TRIGGER=>1},
+	    durations=>{DURATION=>1},
 	    arrays=>{EXDATE=>1,ATTENDEE=>1},
 	    hash=>{'ATTENDEE'=>1, ORGANIZER=>1},
 	   );
@@ -181,9 +181,14 @@ sub VALARM {
     my($self,$alarm,$e)=@_;
 
     my %a=();
-    $self->map_properties(\%a,$alarm);
+    #handle "RELATED attribute
+    my $which=$alarm->{properties}{TRIGGER}[0]{param}{RELATED}||'START';
 
-    $a{when}=$e->{DTSTART}+delete $a{TRIGGER};
+    $self->map_properties(\%a,$alarm);
+    $a{when}=ref $a{TRIGGER} eq 'DateTime::Duration'
+        ? $e->{"DT$which"}+delete $a{TRIGGER}
+            : delete $a{TRIGGER};
+
     push @{$e->{VALARM}},\%a;
 }
 sub _fix_alarms {
@@ -223,6 +228,11 @@ sub convert_value {
     my $value=$hash->{value};
     return $value unless $value; #should protect from invalid datetimes
 
+    if($type eq 'TRIGGER') {
+        #can be date or duration!
+        return $dfmt->parse_duration($value) if $value =~/^[-+]?P/;
+	    return $dfmt->parse_datetime($value)->set_time_zone($self->{tz});
+    }
     if($TYPES{hash}{$type}) {
 	my %h=(value=>$value);
 	map { $h{$_}=$hash->{param}{$_} } keys %{ $hash->{param} };
@@ -269,7 +279,7 @@ sub map_properties {
     foreach (keys %$props) {
 	my @a=$self->get_value($props,$_);
 	delete $e->{$_}, next unless defined $a[0];
-	$e->{$_}=$TYPES{arrays}{$_} ? \@a :$a[0];
+	$e->{$_}=$TYPES{arrays}{$_} ? \@a : $a[0];
     };
     delete $e->{SEQUENCE};
 }

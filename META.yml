@@ -1,6 +1,6 @@
 ---
 name: iCal-Parser
-version: 1.12
+version: 1.13
 author:
   - 'Rick Frankel, cpan@rickster.com'
 abstract: Parse iCalendar files into a data structure
@@ -21,6 +21,6 @@ meta-spec:
 provides:
   iCal::Parser:
     file: lib/iCal/Parser.pm
-    version: 1.12
+    version: 1.13
 resources:
   license: http://dev.perl.org/licenses/
