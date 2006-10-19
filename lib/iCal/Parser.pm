@@ -1,9 +1,9 @@
-# $Id: Parser.pm 167 2006-09-12 01:24:39Z rick $
+# $Id: Parser.pm 170 2006-10-19 22:18:35Z rick $
 package iCal::Parser;
 use strict;
 
 # Get version from subversion url of tag or branch.
-our $VERSION= do {(q$URL: svn+ssh://xpc/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.13/lib/iCal/Parser.pm $=~ m$.*/(?:tags|branches)/([^/ \t]+)$)[0] || "0.0"};
+our $VERSION= do {(q$URL: svn+ssh://xpc/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.14/lib/iCal/Parser.pm $=~ m$.*/(?:tags|branches)/([^/ \t]+)$)[0] || "0.0"};
 
 our @ISA = qw (Exporter);
 
@@ -15,13 +15,13 @@ use IO::String;
 
 # mapping of ical entries to datatypes
 our %TYPES=(dates=>{DTSTAMP=>1,DTSTART=>1,DTEND=>1,COMPLETED=>1,
-		    'RECURRENCE-ID'=>1,EXDATE=>1,DUE=>1,
-		    'LAST-MODIFIED'=>1,
-		   },
-	    durations=>{DURATION=>1},
-	    arrays=>{EXDATE=>1,ATTENDEE=>1},
-	    hash=>{'ATTENDEE'=>1, ORGANIZER=>1},
-	   );
+                    'RECURRENCE-ID'=>1,EXDATE=>1,DUE=>1,
+                    'LAST-MODIFIED'=>1,
+                },
+            durations=>{DURATION=>1},
+            arrays=>{EXDATE=>1,ATTENDEE=>1},
+            hash=>{'ATTENDEE'=>1, ORGANIZER=>1},
+        );
 
 our %defaults=(debug=>0,span=>undef,start=>undef,end=>undef,months=>60,tz=>'local');
 
@@ -31,9 +31,9 @@ sub new {
     my ($class, %params) = @_;
 
     my $self=bless {%defaults, %params,
-		    ical=>{cals=>[],events=>{},todos=>[]},
-		    _today=>DateTime->now,_calid=>0,
-		   }, $class;
+                    ical=>{cals=>[],events=>{},todos=>[]},
+                    _today=>DateTime->now,_calid=>0,
+                }, $class;
     #set range, allow passed in dates as DateTimes or strings
     my $start=$params{start}||DateTime->now->truncate(to=>'year');
     $start=$dfmt->parse_datetime($start) unless ref $start;
@@ -47,13 +47,14 @@ sub parse {
     my $self=shift;
 
     foreach my $file (@_) {
-	my $fh=ref $file ? $file
-	: IO::File->new($file,'r') || die "Can\'t open $file, $!";
-	my $data=$parser->parse($fh);
-	undef $fh;
+        my $fh=ref $file ? $file
+            : IO::File->new($file,'r') || die "Can\'t open $file, $!";
+        my $data=$parser->parse($fh);
+        undef $fh;
 
-	$self->VCALENDAR($data->{objects}[0],$file);
-	$self->add_objects($data->{objects}[0]);
+        $self->VCALENDAR($data->{objects}[0],$file);
+        $self->add_objects($data->{objects}[0]);
+        $self->update_recurrences;
     }
     return $self->{ical};
 }
@@ -76,7 +77,7 @@ sub VCALENDAR {
     $props{index}=++$self->{_calid};
     $props{'X-WR-RELCALID'}||=$self->{_calid};
     $props{'X-WR-CALNAME'}||= ref $file
-    ? "Calendar $self->{_calid}" : fileparse($file,qr{\.\w+});
+        ? "Calendar $self->{_calid}" : fileparse($file,qr{\.\w+});
 
     push @{$self->{ical}{cals}},\%props;
 }
@@ -104,7 +105,7 @@ sub VEVENT {
     return if $start > $self->{span}->end;
 
     warn "Event: @e{qw(UID DTSTART SUMMARY)}\n"
-    if $self->{debug};
+        if $self->{debug};
 
     # stolen from Text::vFile::asData example
     $e{allday}=1 if _param($event,'DTSTART','VALUE')||'' eq 'DATE';
@@ -117,36 +118,35 @@ sub VEVENT {
 
     #build recurrence sets
     my $set;
-    if(my $rid=delete $e{'RECURRENCE-ID'}) {
-	return if $start < $self->{span}->start;
-	# if recurrence not a replacement, treat it as
-	# a new event
-	return if $self->update_recurrence(\%e,$rid);
+    if (my $rid=$e{'RECURRENCE-ID'}) {
+        return if $start < $self->{span}->start;
+        push @{ $self->{recurrences} }, \%e;
+        return;
     }
-    if(my $recur=delete $e{RRULE}) {
-	$set=$dfmt->parse_recurrence(recurrence=>$recur, dtstart=>$start,
-				     #cap infinite repeats
-				     until=>$self->{span}->end);
+    if (my $recur=delete $e{RRULE}) {
+        $set=$dfmt->parse_recurrence(recurrence=>$recur, dtstart=>$start,
+                                     #cap infinite repeats
+                                     until =>$self->{span}->end);
     } elsif ($end) {
-	# non-rrule event possibly spanning multiple days,
-	# expand into multiple events
-	my $diff=$end-$start;
-	if (!$e{allday} && $end->day > $start->day) {
-	    $self->add_span(\%e);
-	    return;
-	}
-	if($diff->delta_days > 1) {
-	    # note recurrence includes last date, and allday events
-	    # end at 00 on the last (non-inclusive) day, so remove it
-	    # from set
-	    $set=DateTime::Set->from_recurrence
-	    (start=>$start,end=>$end->clone->subtract(days=>1),
-	     recurrence=>sub {
-		 return $_[0]->truncate(to=>'day')->add(days=>1)
-	     });
-	    # reset duration to "allday" event
-	    $duration=DateTime::Duration->new(days=>1);
-	}
+        # non-rrule event possibly spanning multiple days,
+        # expand into multiple events
+        my $diff=$end-$start;
+        if (!$e{allday} && $end->day > $start->day) {
+            $self->add_span(\%e);
+            return;
+        }
+        if ($diff->delta_days > 1) {
+            # note recurrence includes last date, and allday events
+            # end at 00 on the last (non-inclusive) day, so remove it
+            # from set
+            $set=DateTime::Set->from_recurrence
+                (start=>$start,end=>$end->clone->subtract(days=>1),
+                 recurrence=>sub {
+                     return $_[0]->truncate(to=>'day')->add(days=>1)
+                 });
+            # reset duration to "allday" event
+            $duration=DateTime::Duration->new(days=>1);
+        }
     }
     $set||=DateTime::Set->from_datetimes(dates=>[$start]);
 
@@ -154,21 +154,21 @@ sub VEVENT {
     # note that count returns "undef" for infinitely large sets.
     return if defined $set->count && $set->count==0;
 
-    if(my $dates=delete $e{'EXDATE'}) {
-	#mozilla/sunbird set exdate to T00..., so, get first start date
-	#and set times on exdates
-	my $d=$set->min;
-	my $exset=DateTime::Set->from_datetimes
-	(dates=>[
-		 map {$_->set(hour=>$d->hour,minute=>$d->minute,
-			      second=>$d->second)
-		  } @$dates]);
-	$set=$set
-	->complement(DateTime::Set->from_datetimes(dates=>$dates));
+    if (my $dates=delete $e{'EXDATE'}) {
+        #mozilla/sunbird set exdate to T00..., so, get first start date
+        #and set times on exdates
+        my $d=$set->min;
+        my $exset=DateTime::Set->from_datetimes
+            (dates=>[
+                map {$_->set(hour=>$d->hour,minute=>$d->minute,
+                             second=>$d->second)
+                 } @$dates]);
+        $set=$set
+            ->complement(DateTime::Set->from_datetimes(dates=>$dates));
     }
     $set=$set->intersection($self->{span}) if $self->{span};
     my $iter=$set->iterator;
-    while(my $dt=$iter->next) {
+    while (my $dt=$iter->next) {
         #bug found by D. Sweet. Fix alarms on entries
         #other than first
         my $new_event={%e,DTSTART=>$dt,DTEND=>$dt+$duration};
@@ -211,8 +211,8 @@ sub add_objects {
 
     return unless $event->{objects};
     foreach my $o (@{ $event->{objects} }) {
-	my $t=$o->{type};
-	$self->$t($o,@_) if $self->can($t);
+        my $t=$o->{type};
+        $self->$t($o,@_) if $self->can($t);
     }
 }
 sub _hours {
@@ -228,15 +228,15 @@ sub convert_value {
     my $value=$hash->{value};
     return $value unless $value; #should protect from invalid datetimes
 
-    if($type eq 'TRIGGER') {
+    if ($type eq 'TRIGGER') {
         #can be date or duration!
         return $dfmt->parse_duration($value) if $value =~/^[-+]?P/;
 	    return $dfmt->parse_datetime($value)->set_time_zone($self->{tz});
     }
-    if($TYPES{hash}{$type}) {
-	my %h=(value=>$value);
-	map { $h{$_}=$hash->{param}{$_} } keys %{ $hash->{param} };
-	return \%h;
+    if ($TYPES{hash}{$type}) {
+        my %h=(value=>$value);
+        map { $h{$_}=$hash->{param}{$_} } keys %{ $hash->{param} };
+        return \%h;
     }
     return $dfmt->parse_duration($value) if $TYPES{durations}{$type};
     return $value unless $TYPES{dates}{$type};
@@ -247,17 +247,17 @@ sub convert_value {
     #handle dates which can be arrays (EXDATE)
     my @dates=();
     foreach my $s (split ',', $value) {
-	# I have a sample calendar "Employer Tax calendar"
-	# which has an allday event ending on 20040332!
-	# so, handle the exception
-	my $date;
-	eval {
-	    $date=$dfmt->parse_datetime($s)->set_time_zone($self->{tz});
-	};
-	push @dates, $date and next unless $@;
-	die $@ if $@ && $type ne 'DTEND';
-	push @dates,
-	$dfmt->parse_datetime(--$value)->set_time_zone($self->{tz});
+        # I have a sample calendar "Employer Tax calendar"
+        # which has an allday event ending on 20040332!
+        # so, handle the exception
+        my $date;
+        eval {
+            $date=$dfmt->parse_datetime($s)->set_time_zone($self->{tz});
+        };
+        push @dates, $date and next unless $@;
+        die $@ if $@ && $type ne 'DTEND';
+        push @dates,
+            $dfmt->parse_datetime(--$value)->set_time_zone($self->{tz});
     }
     return @dates;
 }
@@ -277,10 +277,11 @@ sub map_properties {
 
     my $props=$event->{properties};
     foreach (keys %$props) {
-	my @a=$self->get_value($props,$_);
-	delete $e->{$_}, next unless defined $a[0];
-	$e->{$_}=$TYPES{arrays}{$_} ? \@a : $a[0];
-    };
+        my @a=$self->get_value($props,$_);
+        delete $e->{$_}, next unless defined $a[0];
+        $e->{$_}=$TYPES{arrays}{$_} ? \@a : $a[0];
+    }
+    ;
     delete $e->{SEQUENCE};
 }
 sub _cur_calid {
@@ -294,8 +295,8 @@ sub find_day {
     #warn sprintf "find %4d-%02d-%02d\n",$d->year,$d->month,$d->day
     #if $self->{debug};
     foreach my $i ($d->year,$d->month,$d->day) {
-	$h->{$i}||={};
-	$h=$h->{$i};
+        $h->{$i}||={};
+        $h=$h->{$i};
     }
     return $h;
 }
@@ -304,15 +305,13 @@ sub add_event {
 
     $self->find_day($event->{DTSTART})->{$event->{UID}}=$event;
 }
-sub update_recurrence {
-    my($self,$event,$date)=@_;
-    my $uid=$event->{UID};
-
-    my $day=$self->find_day($date);
-    #original doesn't exist, just add it
-    return 0 unless $day->{$uid};
-
-    $day->{$uid}={%{ $day->{$uid} }, %$event};
+sub update_recurrences {
+    my $self=shift;
+    foreach my $event (@{ $self->{recurrences} }) {
+        my $day=$self->find_day(delete $event->{'RECURRENCE-ID'});
+        my $old=delete $day->{$event->{UID}}||{};
+        $self->add_event({%$old,%$event});
+    }
 }
 sub add_span {
     my($self,$event)=@_;
@@ -324,25 +323,25 @@ sub add_span {
     $last{DTSTART}=$event->{DTEND}->clone->truncate(to=>'day');
     $last{DTEND}=$event->{DTEND};
     $event->{DTEND}=$event->{DTSTART}->clone->truncate(to=>'day')
-    ->add(days=>1);
+        ->add(days=>1);
     $last{hours}=_hours($last{DTEND}-$last{DTSTART});
     $event->{hours}=_hours($event->{DTEND}-$event->{DTSTART});
     my @a=();
     my $min=$self->{span}->start;
     my $max=$self->{span}->end;
     for (my $d=$event->{DTEND}->clone;
-	 $d < $last{DTSTART}; $d->add(days=>1)) {
-	if($d >= $min && $d <= $max) {
-	    my %t=%last;
-	    $t{DTSTART}=$d->clone;
-	    $t{DTEND}=$d->clone->add(days=>1);
-	    $t{hours}=_hours($t{DTEND}-$t{DTSTART});
-	    push @a,\%t;
-	}
+         $d < $last{DTSTART}; $d->add(days=>1)) {
+        if ($d >= $min && $d <= $max) {
+            my %t=%last;
+            $t{DTSTART}=$d->clone;
+            $t{DTEND}=$d->clone->add(days=>1);
+            $t{hours}=_hours($t{DTEND}-$t{DTSTART});
+            push @a,\%t;
+        }
     }
     my($start,$end)=($self->{span}->start,$self->{span}->end);
     map {$self->add_event($_)} grep {
-	$_->{DTSTART} >= $start && $_->{DTEND} <= $end
+        $_->{DTSTART} >= $start && $_->{DTEND} <= $end
     } $event,@a,\%last;
 }
 1;
