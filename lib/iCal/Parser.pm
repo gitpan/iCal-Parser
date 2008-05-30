@@ -1,9 +1,9 @@
-# $Id: Parser.pm 170 2006-10-19 22:18:35Z rick $
+# $Id: Parser.pm 368 2007-12-16 22:35:45Z rick $
 package iCal::Parser;
 use strict;
 
 # Get version from subversion url of tag or branch.
-our $VERSION= do {(q$URL: svn+ssh://xpc/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.14/lib/iCal/Parser.pm $=~ m$.*/(?:tags|branches)/([^/ \t]+)$)[0] || "0.0"};
+our $VERSION= do {(q$URL: svn+ssh://xpc/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.15/lib/iCal/Parser.pm $=~ m$.*/(?:tags|branches)/([^/ \t]+)$)[0] || "0.01"};
 
 our @ISA = qw (Exporter);
 
@@ -72,6 +72,7 @@ sub VCALENDAR {
     my($self,$cal,$file)=@_;
 
     my %props=();
+    $self->{recurrences}=[];
     $self->map_properties(\%props,$cal);
     $props{'X-WR-TIMEZONE'}||=$self->{tz};
     $props{index}=++$self->{_calid};
@@ -231,7 +232,7 @@ sub convert_value {
     if ($type eq 'TRIGGER') {
         #can be date or duration!
         return $dfmt->parse_duration($value) if $value =~/^[-+]?P/;
-	    return $dfmt->parse_datetime($value)->set_time_zone($self->{tz});
+        return $dfmt->parse_datetime($value)->set_time_zone($self->{tz});
     }
     if ($TYPES{hash}{$type}) {
         my %h=(value=>$value);
