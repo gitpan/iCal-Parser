@@ -1,5 +1,5 @@
 # -*-cperl -*-
-# $Id: 02parse.t 6 2005-03-20 00:35:17Z rick $
+# $Id: 02parse.t 464 2008-05-30 23:49:01Z rick $
 use Test::More;
 use iCal::Parser;
 
@@ -11,8 +11,9 @@ plan tests => scalar @files + 3;
 my $tz='UTC';
 my $VAR1;
 foreach my $f (@files) {
-    $VAR1=defrost("$f.dump");
     my $h = iCal::Parser->new(start=>'20040101',tz=>$tz)->parse($f);
+    if($ENV{_DUMP}) {ice("$f.dump", $h);}
+    $VAR1=defrost("$f.dump");
     is_deeply($h,$VAR1,$f=~/.+\d+(.+)\.ics/);
 }
 $VAR1= defrost("t/calendars/10multi-cal.ics.dump");

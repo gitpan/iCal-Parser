@@ -1,6 +1,6 @@
 ---
 name: iCal-Parser
-version: 1.15
+version: 1.16
 author:
   - 'Rick Frankel, cpan@rickster.com'
 abstract: Parse iCalendar files into a data structure
@@ -19,7 +19,7 @@ build_requires:
 provides:
   iCal::Parser:
     file: lib/iCal/Parser.pm
-    version: 1.15
+    version: 1.16
 generated_by: Module::Build version 0.2808
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html

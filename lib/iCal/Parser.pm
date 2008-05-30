@@ -1,9 +1,9 @@
-# $Id: Parser.pm 368 2007-12-16 22:35:45Z rick $
+# $Id: Parser.pm 464 2008-05-30 23:49:01Z rick $
 package iCal::Parser;
 use strict;
 
 # Get version from subversion url of tag or branch.
-our $VERSION= do {(q$URL: svn+ssh://xpc/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.15/lib/iCal/Parser.pm $=~ m$.*/(?:tags|branches)/([^/ \t]+)$)[0] || "0.01"};
+our $VERSION= do {(q$URL: svn+ssh://xpc/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.16/lib/iCal/Parser.pm $=~ m$.*/(?:tags|branches)/([^/ \t]+)$)[0] || "0.01"};
 
 our @ISA = qw (Exporter);
 
@@ -112,8 +112,10 @@ sub VEVENT {
     $e{allday}=1 if _param($event,'DTSTART','VALUE')||'' eq 'DATE';
 
     #is it a rule that an event must contain either a duration or end?
+    # answer: no, it's not (cpan bug #25232)
     my $end=$e{DTEND};
-    my $duration=delete $e{DURATION}||$end-$start;
+    my $duration=$end ? $end-$start : delete $e{DURATION};
+    $duration ||= DateTime::Duration->new(days=> $e{allday} ? 1 : 0);
     $e{DTEND}||=$start+$duration;
     $e{hours}=_hours($duration) unless $e{allday};
 

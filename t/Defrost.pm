@@ -1,5 +1,5 @@
-# $Id: Defrost.pm 37 2005-03-29 00:58:22Z rick $
-use FreezeThaw qw(thaw);
+# $Id: Defrost.pm 464 2008-05-30 23:49:01Z rick $
+use FreezeThaw qw(thaw freeze);
 
 sub defrost {
     my $f=shift;
@@ -8,5 +8,12 @@ sub defrost {
     my $s=<IN>;
     close IN;
     return (thaw($s))[0];
+}
+sub ice {
+    my($f, $h)=@_;
+    print STDERR "Dumping $f\n";
+    open OUT, ">", $f or die "Can't open $f, $!";
+    print OUT freeze($h);
+    close OUT;
 }
 1;

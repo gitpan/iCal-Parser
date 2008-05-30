@@ -17,8 +17,12 @@ t/calendars/02event-duration.ics
 t/calendars/02event-duration.ics.dump
 t/calendars/02event-end.ics
 t/calendars/02event-end.ics.dump
+t/calendars/02event-no-end.ics
+t/calendars/02event-no-end.ics.dump
 t/calendars/03all-day-event.ics
 t/calendars/03all-day-event.ics.dump
+t/calendars/03all-day-no-end.ics
+t/calendars/03all-day-no-end.ics.dump
 t/calendars/03static-alarm.ics
 t/calendars/03static-alarm.ics.dump
 t/calendars/04recurrence.ics
