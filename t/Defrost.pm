@@ -1,4 +1,4 @@
-# $Id: Defrost.pm 464 2008-05-30 23:49:01Z rick $
+# $Id$
 use FreezeThaw qw(thaw freeze);
 
 sub defrost {

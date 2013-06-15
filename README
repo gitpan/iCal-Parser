@@ -63,7 +63,6 @@ DESCRIPTION
     An example of each hash is below.
 
   Calendar Hash
-
         {
             'X-WR-CALNAME' => 'Test',
             'index' => 1,
@@ -76,7 +75,6 @@ DESCRIPTION
         }
 
   Event Hash
-
     Note that `hours' and `allday' are mutually exclusive in the actual
     data. The `idref' field contains the `id' of the calendar the event came
     from, which is useful if the hash was created from multiple calendars.
@@ -112,7 +110,6 @@ DESCRIPTION
         }
 
   Todo Hash
-
         {
             'URL' => 'mailto:me',
             'SUMMARY' => 'todo 1',
@@ -136,7 +133,6 @@ DESCRIPTION
 
 Methods
   new(%opt_args)
-
     Optional Arguments
     start {yyymmdd|DateTime}
         Only include events on or after `yyymmdd'. Defaults to Jan of this
@@ -157,7 +153,7 @@ Methods
         `to' date is set to the `start' date plus this many months. The
         default is 60.
 
-    tz string
+    tz (string|DateTime::TimeZone)
         Use tz as timezone for date values. The default is 'local', which
         will adjust the parsed dates to the current timezone.
 
@@ -165,7 +161,6 @@ Methods
         Set to non-zero for some debugging output during processing.
 
   parse({file|file_handle}+)
-
     Parse the input files or opened file handles and return the generated
     hash.
 
@@ -174,11 +169,9 @@ Methods
     calendar.
 
   parse_files({file|file_handle}+)
-
     Alias for `parse()'
 
   parse_strings(string+)
-
     Parse the input strings (each assumed to be a valid iCalendar) and
     return the generated hash.
 

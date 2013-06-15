@@ -1,15 +1,17 @@
 # -*-cperl -*-
-# $Id: 02parse.t 464 2008-05-30 23:49:01Z rick $
+# $Id$
 use Test::More;
 use iCal::Parser;
 
 require "t/Defrost.pm";
 
 my @files=glob("t/calendars/[0-9]*.ics");
-plan tests => scalar @files + 3;
+plan tests => scalar @files + 4;
+
 
 my $tz='UTC';
 my $VAR1;
+
 foreach my $f (@files) {
     my $h = iCal::Parser->new(start=>'20040101',tz=>$tz)->parse($f);
     if($ENV{_DUMP}) {ice("$f.dump", $h);}
@@ -41,4 +43,10 @@ my @s=();
 #must do outside of block above as $/ affect IO::String
 $h=iCal::Parser->new(start=>'20040101',tz=>$tz)->parse_strings(@s);
 is_deeply($h,$VAR1,"multiple calendars (parse_strings)");
+
+my $f="t/calendars/11complex.ics";
+$h = iCal::Parser->new(start=>'20040101',tz=>'America/New_York')->parse($f);
+if($ENV{_DUMP}) {ice("$f.tz.dump", $h);}
+$VAR1=defrost("$f.tz.dump");
+is_deeply($h,$VAR1, 'set timezone');
 

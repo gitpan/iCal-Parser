@@ -1,13 +1,13 @@
-# $Id: Parser.pm 464 2008-05-30 23:49:01Z rick $
+# $Id$
 package iCal::Parser;
 use strict;
 
-# Get version from subversion url of tag or branch.
-our $VERSION= do {(q$URL: svn+ssh://xpc/var/lib/svn/rick/perl/ical/iCal-Parser/tags/1.16/lib/iCal/Parser.pm $=~ m$.*/(?:tags|branches)/([^/ \t]+)$)[0] || "0.01"};
+our $VERSION='1.20';
 
 our @ISA = qw (Exporter);
 
 use DateTime::Format::ICal;
+use DateTime::TimeZone;
 use Text::vFile::asData;
 use File::Basename;
 use IO::File;
@@ -40,6 +40,9 @@ sub new {
     my $end=$params{end}||$start->clone->add(months=>$self->{months});
     $end=$dfmt->parse_datetime($end) unless ref $end;
     $self->{span}||=DateTime::Span->new(start=>$start, end=>$end);
+
+    $self->{tz}=DateTime::TimeZone->new(name=>$self->{tz})
+        unless ref $self->{tz};
 
     return ($self);
 }
@@ -74,7 +77,7 @@ sub VCALENDAR {
     my %props=();
     $self->{recurrences}=[];
     $self->map_properties(\%props,$cal);
-    $props{'X-WR-TIMEZONE'}||=$self->{tz};
+    $props{'X-WR-TIMEZONE'}||=$self->{tz}->name;
     $props{index}=++$self->{_calid};
     $props{'X-WR-RELCALID'}||=$self->{_calid};
     $props{'X-WR-CALNAME'}||= ref $file
@@ -531,7 +534,7 @@ approximately 200 entries. If an C<end> date is not specified, the
 C<to> date is set to the C<start> date plus this many months.
 The default is 60.
 
-=item tz string
+=item tz (string|DateTime::TimeZone)
 
 Use tz as timezone for date values.
 The default is 'local', which will adjust the parsed dates to the current timezone.
